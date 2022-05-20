@@ -172,11 +172,4 @@ MainNet(
     (last_act): PReLU(num_parameters=1)
   )
 )
-
-Evaluation:
-[DRIVET x1]	DICE Score: 0.831591 (Best: 0.831591 @epoch 1)
-Forward: 19.02s
-
-Saving...
-Total: 19.31s
-
+[Epoch 1]	Learning rate: 1.00e-4

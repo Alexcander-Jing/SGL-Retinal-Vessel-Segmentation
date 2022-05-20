@@ -175,8 +175,8 @@ MainNet(
 
 Evaluation:
 [CHASET x1]	DICE Score: 0.827071 (Best: 0.827071 @epoch 1)
-Forward: 15.14s
+Forward: 20.03s
 
 Saving...
-Total: 16.55s
+Total: 21.47s
 
