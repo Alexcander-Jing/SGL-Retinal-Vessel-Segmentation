@@ -178,7 +178,7 @@ def calc_ssim(sr, hr, align=False):
     hr = np.transpose(hr[0].cpu().numpy(), (1,2,0))
     return skimage.measure.compare_ssim(sr/255., hr/255., multichannel=True)
 
-def calc_dice(sr, hr, npf=False):
+def calc_dice(sr, hr, npf=False):  # calculate the dice in segmentation
     if not npf:
         sr = np.transpose(sr[0].cpu().numpy(), (1,2,0)) / 255.
     hr = np.transpose(hr[0].cpu().numpy(), (1,2,0)) / 255.
@@ -187,16 +187,16 @@ def calc_dice(sr, hr, npf=False):
 
 
 def calculate_Accuracy(confusion):
-    confusion=np.asarray(confusion)
+    confusion=np.asarray(confusion)  # the confusion matrix for every class in pixels(the num of pixels of prediction and label for every class)
     pos = np.sum(confusion, 1).astype(np.float32) # 1 for row
     res = np.sum(confusion, 0).astype(np.float32) # 0 for coloum
-    tp = np.diag(confusion).astype(np.float32)
-    IU = tp / (pos + res - tp)
+    tp = np.diag(confusion).astype(np.float32)  # the diagonal elements, tp,pos,res are all in the form of vector
+    IU = tp / (pos + res - tp)  # calculate the IoU for every class(in the form of vector)
 
-    meanIU = np.mean(IU)
-    Acc = np.sum(tp) / np.sum(confusion)
-    Se = confusion[1][1] / (confusion[1][1]+confusion[0][1])
-    Sp = confusion[0][0] / (confusion[0][0]+confusion[1][0])
+    meanIU = np.mean(IU)  # the mean IoU for every class
+    Acc = np.sum(tp) / np.sum(confusion)  # the whole accuracy 
+    Se = confusion[1][1] / (confusion[1][1]+confusion[0][1])  
+    Sp = confusion[0][0] / (confusion[0][0]+confusion[1][0])   
 
     return  meanIU,Acc,Se,Sp,IU
 
@@ -210,7 +210,7 @@ def calc_metrics(pred, sr, hr, npf=False):
     pred = pred.reshape([-1])
     my_confusion = metrics.confusion_matrix(sr, hr).astype(np.float32)
     meanIU, Acc,Se,Sp, IU = calculate_Accuracy(my_confusion)
-    Auc = roc_auc_score(hr, pred)
+    Auc = roc_auc_score(hr, pred)  # calculate the auc
     return Acc,Se,Sp,Auc, IU[0], IU[1]
 
 def calc_psnr(sr, hr, scale, rgb_range, align=False, dataset=None):
