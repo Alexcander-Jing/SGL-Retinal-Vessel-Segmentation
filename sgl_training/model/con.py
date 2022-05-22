@@ -26,7 +26,7 @@ class EnhanceNet(nn.Module):
         self.conv8 = self.conv_block(128,64)
         self.conv9 = self.conv_block(64,32)
         #self.conv10 = self.conv_block(35,1)
-        self.conv11 = self.conv_block(35,3)
+        self.conv11 = self.conv_block(35,3)  # 32+3=35
         self.last_act = nn.PReLU()
 
     def conv_block(self, channel_in, channel_out):
@@ -48,7 +48,7 @@ class EnhanceNet(nn.Module):
             )
 
     def upconv(self, channel_in, channel_out):
-        return nn.ConvTranspose2d(channel_in,channel_out,kernel_size=2,stride=2)
+        return nn.ConvTranspose2d(channel_in,channel_out,kernel_size=2,stride=2)  # transposed convolution as the upsampling method
 
     def forward(self, x):
         x = x / 255.
@@ -166,6 +166,7 @@ class SegNet(nn.Module):
                 if name.find('tail') == -1:
                     raise KeyError('unexpected key "{}" in state_dict'
                                    .format(name))
+                                   
 class MainNet(nn.Module):
     def __init__(self):
         super(MainNet, self).__init__()

@@ -195,14 +195,14 @@ def calculate_Accuracy(confusion):
 
     meanIU = np.mean(IU)  # the mean IoU for every class
     Acc = np.sum(tp) / np.sum(confusion)  # the whole accuracy 
-    Se = confusion[1][1] / (confusion[1][1]+confusion[0][1])  
-    Sp = confusion[0][0] / (confusion[0][0]+confusion[1][0])   
+    Se = confusion[1][1] / (confusion[1][1]+confusion[0][1])  # sensitivity TP/(TP+FN)
+    Sp = confusion[0][0] / (confusion[0][0]+confusion[1][0])  # specificity TN/(TN+FP)
 
     return  meanIU,Acc,Se,Sp,IU
 
 def calc_metrics(pred, sr, hr, npf=False):
     if not npf:
-        sr = np.transpose(sr[0].cpu().numpy(), (1,2,0)) / 255.
+        sr = np.transpose(sr[0].cpu().numpy(), (1,2,0)) / 255.  # make the transpose of the matrix 
     hr = np.transpose(hr[0].cpu().numpy(), (1,2,0)) / 255.
     pred = np.transpose(pred[0].cpu().numpy(), (1,2,0)) 
     sr = sr.reshape([-1]).astype(np.uint8)
@@ -214,7 +214,7 @@ def calc_metrics(pred, sr, hr, npf=False):
     return Acc,Se,Sp,Auc, IU[0], IU[1]
 
 def calc_psnr(sr, hr, scale, rgb_range, align=False, dataset=None):
-    
+    # calculate the psnr(Peak Signal-to-Noise Ratio) for comparing the two images
     if hr.nelement() == 1: return 0
     if align==True:  #shift one pixel offset
         sr = sr[:,:,1:-1, 1:]

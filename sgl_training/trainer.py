@@ -189,7 +189,7 @@ class Trainer():
 
         torch.set_grad_enabled(True)
 
-    def prepare(self, args):
+    def prepare(self, args):  # the data to GPU 
         device = torch.device('cpu' if self.args.cpu else 'cuda')
         def _prepare(tensor):
             if self.args.precision == 'half': tensor = tensor.half()
